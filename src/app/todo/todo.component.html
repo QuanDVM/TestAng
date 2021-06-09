@@ -1,0 +1,35 @@
+<section class="todoapp">
+  <header class="header">
+    <h1>Title</h1>
+    <input class="new-todo" placeholder="Name?" [(ngModel)]="newName" (keyup.enter)="addTodo()" autofocus>
+  </header>
+  <section class="main">
+    <ul class="todo-list">
+      <li *ngFor="let todo of todos | async" [ngClass]="{completed: todo.isDone, editing: todo.editing}">
+        <div class="view">
+          <input
+            #checkTodo 
+            [value]="todo.isDone"
+            class="toggle"
+            type="checkbox"
+            [checked]="todo.isDone"
+            (click)="updateTodo(todo, updatedTodo.value, checkTodo.checked)"
+          >
+          <label (dblclick)="updateTodo(todo, updatedTodo.value, checkTodo.checked, true)">{{todo.name}}</label>
+          <button class="destroy" (click)="destroyTodo(todo)"></button>
+        </div>
+        <input
+          class="edit"
+          #updatedTodo [value]="todo.name"
+          (blur)="updateTodo(todo, updatedTodo.value, checkTodo.checked,false)"
+          (keyup.escape)="updateTodo(todo, updatedTodo.value, checkTodo.checked, false)"
+          (keyup.enter)="updateTodo(todo, updatedTodo.value, checkTodo.checked)"
+        >
+      </li>
+    </ul>
+  </section>
+  <footer class="footer">
+    <ul class="filters">
+    </ul>
+  </footer>
+</section>
